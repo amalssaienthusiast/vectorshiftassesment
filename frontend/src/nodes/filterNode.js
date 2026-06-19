@@ -1,3 +1,4 @@
+// Filter node — passes through data matching a field condition
 import { BaseNode } from './BaseNode';
 
 export const FilterNode = ({ id, data }) => {

@@ -1,3 +1,4 @@
+// Pipeline output node — receives Text or Image data from the pipeline
 import { BaseNode } from './BaseNode';
 
 export const OutputNode = ({ id, data }) => {

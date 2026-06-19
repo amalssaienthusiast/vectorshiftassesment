@@ -1,3 +1,4 @@
+// LLM node — takes a system prompt and user prompt, outputs a response
 import { BaseNode } from './BaseNode';
 
 export const LLMNode = ({ id, data }) => {

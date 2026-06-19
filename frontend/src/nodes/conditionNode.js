@@ -1,3 +1,4 @@
+// Condition node — routes data to a true or false output based on an operator
 import { BaseNode } from './BaseNode';
 
 export const ConditionNode = ({ id, data }) => {

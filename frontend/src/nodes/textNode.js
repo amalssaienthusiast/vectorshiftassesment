@@ -1,3 +1,7 @@
+// Text node with two special behaviors:
+// 1. Auto-resize — node width/height grows as the user types more text
+// 2. Dynamic handles — typing {{ variableName }} creates a connection handle on the left
+
 import { useEffect, useRef, useMemo } from 'react';
 import { Handle, Position, useUpdateNodeInternals } from 'reactflow';
 import { useStore } from '../store';
@@ -12,6 +16,8 @@ export const TextNode = ({ id, data }) => {
   const textareaRef = useRef(null);
   const text = data.text ?? '{{input}}';
 
+  // Extract unique variable names from {{ }} patterns in the text.
+  // Uses matchAll to avoid stale lastIndex issues with a global regex.
   const variables = useMemo(() => {
     const seen = new Set();
     const matches = [];
@@ -24,17 +30,22 @@ export const TextNode = ({ id, data }) => {
     return matches;
   }, [text]);
 
+  // Tell React Flow to re-register handle positions when handles are added/removed
   useEffect(() => {
     updateNodeInternals(id);
   }, [variables.length, id, updateNodeInternals]);
 
+  // Auto-resize: measure actual text dimensions and apply to the node wrapper
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
 
+    // Height — reset to auto first so scrollHeight recalculates from content
     el.style.height = 'auto';
     el.style.height = el.scrollHeight + 'px';
 
+    // Width — we can't use scrollWidth because textarea has width:100%.
+    // Instead, render the longest line in a hidden span with matching font to measure it.
     const lines = text.split('\n');
     const longestLine = lines.reduce((a, b) => (a.length > b.length ? a : b), '');
 
@@ -86,6 +97,7 @@ export const TextNode = ({ id, data }) => {
           />
         </label>
       </div>
+      {/* One handle per unique variable, spaced evenly along the left edge */}
       {variables.map((v, i) => (
         <Handle
           key={v}

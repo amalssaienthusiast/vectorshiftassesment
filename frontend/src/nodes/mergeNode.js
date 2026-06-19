@@ -1,3 +1,4 @@
+// Merge node — combines two inputs using concat, zip, or interleave
 import { BaseNode } from './BaseNode';
 
 export const MergeNode = ({ id, data }) => {

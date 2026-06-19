@@ -1,3 +1,5 @@
+// Main canvas — renders the React Flow graph and handles drag-drop from the toolbar.
+
 import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
@@ -16,6 +18,9 @@ import 'reactflow/dist/style.css';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
+
+// Registry — maps node type strings to their React components.
+// These keys must match the type strings used in toolbar.js and store.js.
 const nodeTypes = {
   customInput: InputNode,
   llm: LLMNode,
@@ -53,6 +58,8 @@ export const PipelineUI = () => {
       return { id: nodeID, nodeType: `${type}` };
     };
 
+    // Handle drops from the toolbar — reads the node type from dataTransfer,
+    // converts screen coordinates to canvas position, and creates the node.
     const onDrop = useCallback(
         (event) => {
           event.preventDefault();

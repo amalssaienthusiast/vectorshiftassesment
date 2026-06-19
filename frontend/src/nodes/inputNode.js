@@ -1,3 +1,4 @@
+// Pipeline input node — accepts Text or File data into the pipeline
 import { BaseNode } from './BaseNode';
 
 export const InputNode = ({ id, data }) => {

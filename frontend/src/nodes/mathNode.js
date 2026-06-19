@@ -1,3 +1,4 @@
+// Math node — performs arithmetic on two inputs (A and B)
 import { BaseNode } from './BaseNode';
 
 export const MathNode = ({ id, data }) => {

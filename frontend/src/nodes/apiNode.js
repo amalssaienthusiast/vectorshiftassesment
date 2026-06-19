@@ -1,3 +1,4 @@
+// API node — configures an HTTP request with URL and method
 import { BaseNode } from './BaseNode';
 
 export const APINode = ({ id, data }) => {

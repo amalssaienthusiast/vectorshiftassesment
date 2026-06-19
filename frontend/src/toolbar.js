@@ -1,3 +1,4 @@
+// Toolbar — grouped palette of draggable nodes (I/O, Processing, Logic)
 import { DraggableNode } from './draggableNode';
 
 export const PipelineToolbar = () => {

@@ -1,3 +1,6 @@
+// Submit button — sends the current pipeline to the backend for DAG validation.
+// Displays results via alert() and a styled toast notification.
+
 import { useState } from 'react';
 import { useStore } from './store';
 import { useShallow } from 'zustand/react/shallow';
@@ -16,6 +19,7 @@ export const SubmitButton = () => {
     };
 
     const handleSubmit = async () => {
+        // Guard: don't send an empty pipeline
         if (nodes.length === 0) {
             alert('Pipeline is empty. Add some nodes first.');
             return;
@@ -38,6 +42,7 @@ export const SubmitButton = () => {
             alert(message);
             showToast(message, data.is_dag ? 'success' : 'warning');
         } catch (err) {
+            // "Failed to fetch" means the backend server isn't running
             const errMsg = err.message === 'Failed to fetch'
                 ? 'Backend is not running. Start it with: uvicorn main:app --reload'
                 : `Error: ${err.message}`;

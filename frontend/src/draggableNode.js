@@ -1,3 +1,4 @@
+// Drag source — sets the node type on dataTransfer so the canvas knows what to create on drop
 export const DraggableNode = ({ type, label }) => {
     const onDragStart = (event, nodeType) => {
       const appData = { nodeType };
