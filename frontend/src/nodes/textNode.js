@@ -9,6 +9,8 @@ import { useStore } from '../store';
 const MIN_WIDTH = 200;
 const MAX_WIDTH = 400;
 const MIN_HEIGHT = 80;
+const HEADER_HEIGHT = 48;
+const HANDLE_SPACING = 28;
 
 export const TextNode = ({ id, data }) => {
   const updateNodeField = useStore((state) => state.updateNodeField);
@@ -68,12 +70,16 @@ export const TextNode = ({ id, data }) => {
 
     const newWidth = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, measuredTextWidth + 60));
 
+    // Ensure enough height for variable handles stacked below the header
+    const handleAreaHeight = variables.length * HANDLE_SPACING;
+    const minBodyHeight = Math.max(el.scrollHeight + 60, handleAreaHeight + HEADER_HEIGHT + 20);
+
     const parent = el.closest('.base-node');
     if (parent) {
       parent.style.width = newWidth + 'px';
-      parent.style.minHeight = Math.max(MIN_HEIGHT, el.scrollHeight + 60) + 'px';
+      parent.style.minHeight = Math.max(MIN_HEIGHT, minBodyHeight) + 'px';
     }
-  }, [text]);
+  }, [text, variables.length]);
 
   const handleChange = (e) => {
     updateNodeField(id, 'text', e.target.value);
@@ -97,14 +103,15 @@ export const TextNode = ({ id, data }) => {
           />
         </label>
       </div>
-      {/* One handle per unique variable, spaced evenly along the left edge */}
+      {/* Handles start below the header (48px) and stack downward with 28px spacing.
+          Each handle has a pill label to the left so the variable name is clearly visible. */}
       {variables.map((v, i) => (
         <Handle
           key={v}
           type="target"
           position={Position.Left}
           id={`${id}-${v}`}
-          style={{ top: `${((i + 1) / (variables.length + 1)) * 100}%` }}
+          style={{ top: HEADER_HEIGHT + i * HANDLE_SPACING + 14 }}
           className="handle-with-label"
           data-label={v}
         />
@@ -117,3 +124,4 @@ export const TextNode = ({ id, data }) => {
     </div>
   );
 };
+

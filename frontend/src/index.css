@@ -301,14 +301,19 @@ body {
 .handle-with-label::after {
   content: attr(data-label);
   position: absolute;
-  left: 14px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 9px;
-  font-weight: 500;
-  color: var(--text-muted);
+  font-weight: 600;
+  color: #e2e0ff;
+  background: rgba(167, 139, 250, 0.25);
+  border: 1px solid rgba(167, 139, 250, 0.5);
+  padding: 1px 6px;
+  border-radius: 4px;
   white-space: nowrap;
   pointer-events: none;
+  letter-spacing: 0.3px;
 }
 
 /* ── Submit ──────────────────────────── */
